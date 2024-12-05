@@ -3,7 +3,7 @@
         <h2>Add a New Brewery!</h2>
         <div>
             <label for="name">Brewery Name: </label>
-            <input id="name" type="text" v-model="newBrewery.name">
+            <input id="name" type="text" v-model="newBrewery.breweryName">
         </div>
         <div>
             <label for="brewerId">Brewer ID: </label>
@@ -47,8 +47,8 @@ export default {
     data() {
         return {
             newBrewery: {
-                id: '',
-                name: '',
+                // id: '',
+                breweryName: '',
                 userId: '',
                 description: '',
                 address: '',
@@ -60,36 +60,34 @@ export default {
     },
     methods: {
 
-        async submitForm() {
-            try {
-                const response = await breweryService.addBrewery(this.newBrewery);
-                console.log('Brewery created: ', response.data)
-            } catch(error) {
-                console.error('Failed to create brewery:', error);
+        submitForm() {
+            if (this.$store.state.user.authorities[0].name == 'ROLE_ADMIN') {
+                breweryService.addBrewery(this.newBrewery)
+                    .then(response => {
+                        console.log('Response: ', response);
+                        if (response.status === 201 || response.status === 200) {
+                            console.log('New Brewery Added Successfully!');
+                            alert('New Brewery Added Successfully!');
+                            this.cancelForm();
+                            //DO WE EVEN NEED??? below
+                        // } else if (response.status === 403 || response.status === 401) {
+                        //     console.log('You are not authorized to create a brewery.');
+                        } else {
+                            console.log('Brewery unable to be created.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Failed to create brewery:', error);
+                    });
+            } else {
+                alert('You are not allowed to be here!!');
             }
-
-
-            // if (this.newBrewery.id === 0) {
-            //     // add
-            //     breweryService
-            //         .addBrewery(this.newBrewery)
-            //         .then(response => {
-            //             if (response.status === 201) {
-            //                 console.log('New Brewery Added Successfully!');
-            //                 this.$router.push({ name: 'BreweryView', params: { id: this.newBrewery.id } });
-            //             }
-            //         })
-            //         .catch(error => {
-            //             this.handleErrorResponse(error, 'adding');
-            //         });
-            // } else {
-                
-            // }
         },
+
         cancelForm() {
             this.newBrewery = {
-                id: '',
-                name: '',
+                // id: '',
+                breweryName: '',
                 userId: '',
                 description: '',
                 address: '',
@@ -100,6 +98,12 @@ export default {
         },
     }
 }
+
 </script>
 
-<style></style>
+<style>
+.addBrewery h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+</style>

@@ -28,17 +28,17 @@ public class BreweryController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(path = "/breweries", method = RequestMethod.POST)
-    public Brewery addBrewery(@Valid @RequestBody Brewery brewery){
+    @RequestMapping(path = "/breweries/add", method = RequestMethod.POST)
+    public Brewery addBrewery( @RequestBody Brewery brewery){
         try{
 
             if (breweryDao.getBreweryByName(brewery.getBreweryName()) != null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brewery already exists.");
             } else {
-               Brewery newBrewery = breweryDao.addBrewery(brewery);
-                return newBrewery;
+                return breweryDao.addBrewery(brewery);
             }
         } catch (DaoException e) {
+            System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to add brewery.");
         }
     }
@@ -46,16 +46,26 @@ public class BreweryController {
 
     @RequestMapping( path ="/breweries", method = RequestMethod.GET)
     public List<Brewery> getBreweries(){
-
         try{
             return breweryDao.getBreweries();
-        }catch (DaoException e){
+        } catch (DaoException e){
             throw new DaoException("Unable to retrieve Breweries", e);
-
         }
     }
 
-
+    @RequestMapping(path = "/breweries/{id}", method= RequestMethod.GET)
+    public Brewery getBrewery(@PathVariable int id){
+        try{
+            Brewery brewery = breweryDao.getBreweryById(id);
+            if(brewery == null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Brewery not found.");
+            } else {
+                return brewery;
+            }
+        } catch (DaoException e){
+            throw new DaoException("Unable to retrieve Brewery", e);
+        }
+    }
 
 
 }
