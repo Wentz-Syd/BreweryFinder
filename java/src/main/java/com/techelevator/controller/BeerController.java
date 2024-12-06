@@ -60,6 +60,29 @@ public class BeerController {
     }
 
 
+    @RequestMapping(path = "/breweries/{id}/beers/{beerId}", method = RequestMethod.PUT)
+    public void updateBeer(@PathVariable("beerId")int beerId, @RequestBody Beer beer){
+        if(beer.getBeerId() == beerId){
+            try{
+                boolean isUpdated = beerDao.updateBeer(beer);
+                if(!isUpdated){
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beer not updated");
+                }
+            } catch (DaoException e) {
+                throw new DaoException("Unable to retrieve Beer", e);
+            }
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "BeerID does not match existing brewery");
+
+        }
+    }
+
+    @RequestMapping(path = "/breweries/{id}/beers/{beerId}", method = RequestMethod.DELETE)
+    public void deleteBeer(@PathVariable("beerId")int beerId){
+        beerDao.deleteBeerById(beerId);
+    }
+
+
 
 
 
