@@ -9,6 +9,10 @@ import RegisterView from '../views/RegisterView.vue';
 import AddBreweryView from '../views/AddBreweryView.vue';
 import BreweryListView from '../views/BreweryListView.vue';
 import BreweryDetailsView from '../views/BreweryDetailsView.vue';
+import UpdateBreweryView from '../views/UpdateBreweryView.vue';
+import CombinedBeerBreweryView from '../views/CombinedBeerBreweryView.vue';
+import BeerDetailsView from '../views/BeerDetailsView.vue';
+import AddBeerView from '../views/AddBeerView.vue';
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -66,15 +70,51 @@ const routes = [
       requiresAuth: false
     }
   },
+  // {
+  //   path: "/breweries/:id",
+  //   name: "breweryDetails",
+  //   component: BreweryDetailsView,
+  //   props: true,
+  //   meta: {
+  //     requiresAuth: false
+  //   }
+  // },
   {
-    path: "/breweries/:id",
-    name: "breweryDetails",
-    component: BreweryDetailsView,
+    path: "/breweries/:id/update",
+    name: "updateBrewery",
+    component: UpdateBreweryView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  // /beers from url below
+  {
+    path: "/breweries/:id", 
+    name: "combined-view",
+    component: CombinedBeerBreweryView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/breweries/:id/beers/:beerId",
+    name: "beerDetails",
+    component: BeerDetailsView,
     props: true,
     meta: {
       requiresAuth: false
     }
-  }
+  },
+  {
+    path: "/breweries/:id/beers/add",
+    name: "addBeer",
+    component: AddBeerView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+
+
 ];
 
 // Create the router
