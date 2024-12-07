@@ -1,25 +1,7 @@
 <template>
-    <div> 
-        <table class="beerDetails">
-            <thead>
-                <tr>
-                    <th v-for="(header, index) in tableHeaders" :key="index">
-                        {{ header }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="details">
-                    <td>{{ beer.beerName }}</td>
-                    <td>{{beer.beerType}}</td>
-                    <td>{{ beer.description }}</td>
-                    <td>{{beer.abv}}</td>
-                    <td>{{beer.img}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div>
+        <button @click.prevent="deleteBeer" >Delete Beer</button>
     </div>
-    
 </template>
 
 <script>
@@ -42,35 +24,22 @@ export default {
             return this.$store.state.user.id;
         },
         isAdmin() {
-            return this.$store.state.user.authorities[0].name == 'ROLE_ADMIN';
+            return this.$store.state.user.authorities[0].name === 'ROLE_ADMIN';
         },
         isCorrectBrewer() {
-            return this.$store.state.user.authorities[0].name == 'ROLE_BREWER' && (this.currentUserId == this.brewery.userId);
+            return this.$store.state.user.authorities[0].name === 'ROLE_BREWER' && (this.currentUserId == this.brewery.userId);
         }
     },
     data() {
         return {
-            beer: {},
-            brewery: {},
-            tableHeaders: ['Name ', 'Type ', 'Description', 'ABV', 'PIC']
+            brewery: {}
         }
     },
     async created() {
-        this.getBeerDetails(this.id, this.beerId)
-        this.getUserIdFromBrewery();
+       await this.getUserIdFromBrewery();
     },
 
-
     methods: {
-        getBeerDetails(id, beerId) {
-            BeerService.getBeerDetailsByBeerId(id, beerId)
-                .then(response => {
-                    this.beer = response.data;
-                })
-                .catch(error => {
-                    console.error('Error fetching beer details:', error);
-                });
-        },
         deleteBeer(){
             if(!this.isAdmin && !this.isCorrectBrewer){
                 alert('You are not authorized.');
