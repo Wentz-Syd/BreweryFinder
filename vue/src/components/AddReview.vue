@@ -32,13 +32,13 @@ import BreweryService from '../services/BreweryService';
 export default {
     computed: {
         currentUserId() {
-            return this.$store.state.user.id;
+            return this.$store.state.user?.id || null;
         },
         isAdmin() {
-            return this.$store.state.user.authorities[0].name == 'ROLE_ADMIN';
+            return this.$store.state.user?.authorities?.[0]?.name == 'ROLE_ADMIN';
         },
         isCorrectBrewer() {
-            return this.$store.state.user.authorities[0].name == 'ROLE_BREWER' && (this.currentUserId == this.brewery.userId);
+            return this.$store.state.user?.authorities?.[0]?.name == 'ROLE_BREWER' && (this.currentUserId == this.brewery.userId);
         }
     },
     data() {
@@ -47,8 +47,7 @@ export default {
                 beerId: this.$route.params.beerId,
                 rating: '',
                 review: '',
-                userId: this.$store.state.user.id,
-
+                userId: this.$store.state.user?.id,
             },
             brewery: {}
         };
@@ -60,6 +59,9 @@ export default {
         submitForm() {
             if (this.isCorrectBrewer) {
                 alert("You cannot add a review to your own brewery.");
+                return;
+            } else if (this.currentUserId == null){
+                alert("You must login to add a review.");
                 return;
             };
             ReviewService.addReview(this.$route.params.id, this.$route.params.beerId, this.newReview)
@@ -86,7 +88,7 @@ export default {
                 beerId: this.$route.params.beerId,
                 rating: '',
                 review: '',
-                userId: this.$store.state.user.id,
+                userId: this.currentUserId,
             };
         },
 
@@ -107,36 +109,67 @@ export default {
 h2 {
     justify-content: center;
     font-size: 30px;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
 }
+.addReview {
+    background-color: rgba(141, 141, 141, 0.5);
+    border: 1px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+  }
+.container {  
+    height: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    line-height: 1px;
+    margin-top: 17px;
+}
+
 .text{
     display: flex;
     text-align: center;
-
+    
 }
 .text label {
     margin-top: 75px;
     font-size: 25px;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
 }
 .text textarea {
     font-size: 18px;
+    border-radius: 10px;
 }
 .rating label {
     font-size: 25px;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
 }
 .rating select {
     font-size: 23px;
     margin-left: 3px;
     margin-bottom: 20px;
+    cursor: pointer;
+    width: 15%;
+    border-radius: 10px;
 }
 .buttons{
     display: flex;
     justify-content: space-evenly;
+    padding-top: 10px;
+    cursor: pointer;
+
 }
 button {
     border-radius: 10px;
     height: 50px;
     width: 150px;
     font-size: 17px;
+    cursor: pointer;
+    
 }
 button:hover {
     background-color: rgba(228, 186, 61, 0.753);

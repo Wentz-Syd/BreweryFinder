@@ -1,5 +1,8 @@
 <template>
-    <brewery-list></brewery-list>
+    <body>
+        <brewery-list></brewery-list>
+    </body>
+
 </template>
 
 <script>
@@ -13,4 +16,7 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+
+
+</style>

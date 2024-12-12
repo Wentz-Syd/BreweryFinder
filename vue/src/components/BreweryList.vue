@@ -5,7 +5,7 @@
         </div>
         <div class="top">
             <input type="text" name="brewery-filter" class="filter" v-model="filterText"
-                placeholder="Filter Breweries by Name or Location">
+                placeholder="Search Breweries by Name or Location">
             <button class="button" @click.prevent="goToAddBreweryForm" v-if="this.showIf">Add a New Brewery!</button>
         </div>
         <div class="container">
@@ -24,7 +24,7 @@
                                 {{ brewery.breweryName }}
                             </router-link>
                         </td>
-                        <td class="description">{{ brewery.description }}</td>
+
                         <td class="location">{{ brewery.address }} {{ brewery.city }}, {{ brewery.state }} {{
                             brewery.zipcode }}
                         </td>
@@ -43,7 +43,7 @@ export default {
         return {
             breweries: [],
             filterText: '',
-            tableHeaders: ['Name', 'Description', 'Location'],
+            tableHeaders: ['Name', 'Location'],
             showIf: false
         }
     },
@@ -63,7 +63,7 @@ export default {
         isAdmin() {
             return this.$store.state.user.authorities[0].name === 'ROLE_ADMIN';
         }
-        
+
     },
     async created() {
         try {
@@ -80,8 +80,8 @@ export default {
             // console.log('Navigating to Add Brewery form');
             this.$router.push({ name: 'addBreweries' });
         },
-        showIfAdmin(){
-            if(this.isAdmin){
+        showIfAdmin() {
+            if (this.isAdmin) {
                 this.showIf = true;
             }
         }
@@ -100,11 +100,17 @@ body {
 }
 
 body {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-attachment: fixed;
     background-image: url('@/assets/verticalbeer.jpg');
-    background-size: auto;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100%;
 }
 
 .container {
@@ -113,7 +119,7 @@ body {
     justify-content: center;
     max-width: 90%;
     padding: 20px;
-    margin: 0 auto;
+    margin: 20px auto 0;
 }
 
 .brewerieslist th {
@@ -126,28 +132,41 @@ body {
 .title {
     font-size: 40px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    background-color: rgba(141, 141, 141, 0.5);
+    width: fit-content;
+    justify-self: center;
+    border: 1px solid black;
+    margin-bottom: 40px;
+    position: relative;
+    top: 20px;
 }
 
 .title h2 {
     color: white;
+    margin: 20px;
 }
 
 .filter {
-    width: 300px;
+    width: 350px;
     height: 40px;
     font-size: 17px;
+    cursor: pointer;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .top {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 10px;
+    max-width: 90%;
     max-height: 40px;
-    margin: 0 70px;
+    margin: 0 auto;
 }
 
 .button {
@@ -155,10 +174,11 @@ body {
     height: 50px;
     width: 200px;
     font-size: 17px;
+    cursor: pointer;
 }
 
 button:hover {
-    background-color:  rgba(228, 186, 61, 0.753);
+    background-color: rgba(228, 186, 61, 0.753);
 }
 
 .name {
@@ -180,9 +200,9 @@ td {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin: 0 auto;
+    opacity: 85%;
 }
 
 .brewerieslist tr:nth-child(even) {
     background-color: #f8f8f8;
-}
-</style>
+}</style>

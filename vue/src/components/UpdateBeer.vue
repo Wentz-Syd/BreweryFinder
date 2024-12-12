@@ -113,4 +113,65 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+form {
+    background-color: rgba(141, 141, 141, 0.5);
+    width: 300px;
+    padding: 10px 10px
+    
+}
+
+div {
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;  
+    font-size: 20px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+h2 {
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;  
+    font-size: 30px;
+    justify-self: center;
+    
+}
+
+button {
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 35px;
+    width: 80px;
+    font-size: 15px;
+    cursor: pointer;
+    
+}
+
+button:hover {
+    background-color: rgba(228, 186, 61, 0.753);
+   
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+    
+}
+input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+   
+    
+}
+
+textarea{
+  width: 90%;
+  padding: 10px; 
+  border-radius: 10px;
+ 
+}
+
+</style>

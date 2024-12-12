@@ -8,7 +8,7 @@
         <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''"> Logout</router-link>
       </div>
       <div class="title">
-        <p>Hop To It: The TapNavigator</p>
+        <p><b>Hop To It: The TapNavigator</b></p>
       </div>
     </header>
     <router-view />
@@ -26,7 +26,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .links{
   display: flex;
   justify-content: space-between;
@@ -36,15 +36,14 @@ export default {
   justify-content: space-between;
   align-items:center;
   font-size: 20px;
-  padding: 5px;
-  background-color: white;
+  padding: 0px 5px;
+  background-color: rgba(255, 255, 255, 0.631);
 }
 .title{
   display: flex;
   justify-content: flex-start;
   text-align: right;
   top: 0;
-
 }
 .footer {
   position: fixed;

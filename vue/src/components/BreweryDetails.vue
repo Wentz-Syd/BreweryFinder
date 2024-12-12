@@ -1,6 +1,9 @@
 <template>
     <body>
         <div class="container">
+            <div class="logo" v-if="brewery.img">
+                <img :src="brewery.img" alt="" class="image">
+            </div>
             <div class="title">
                 <h2>{{ brewery.breweryName }}</h2>
             </div>
@@ -30,8 +33,6 @@
 
 <script>
 import BreweryService from '../services/BreweryService';
-
-
 export default {
     props: {
         id: {
@@ -88,9 +89,17 @@ export default {
 </script>
 
 <style scoped>
-.container{
- 
-    margin: 0 0 0 0;
+.logo {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    max-width: 300px; 
+    max-height: 300px;
+    padding: 20px;
+    width: auto; 
+    height: auto;
 }
 .breweryDetails th {
     font-size: 30px;
@@ -114,24 +123,30 @@ td {
     font-size: 25px;
 }
 
+.breweryDetails th:first-child{
+    border-top-left-radius: 10px;
+}
+
+.breweryDetails th:last-child{
+    border-top-right-radius: 10px;
+}
+
 .title {
     font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
-    color:white;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;  
+    background-color: rgba(141, 141, 141, 0.5);
+    width: fit-content;
+    justify-self: center;
+    border: 1px solid black;
+    margin-bottom: 10px;
 }
 
-.brewerieslist th {
-    font-size: 25px;
-    background-color: rgba(228, 186, 61, 0.753);
-    padding: 1rem;
-}
-
-.brewerieslist {
-    padding: 1rem;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 button {
     border-radius: 10px;
@@ -142,6 +157,7 @@ button {
 .button{
     display: flex;
     justify-content: flex-end;
+    cursor: pointer;
 }
 button:hover {
     background-color:  rgba(228, 186, 61, 0.753);
@@ -149,6 +165,7 @@ button:hover {
 
 button {
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .details {
